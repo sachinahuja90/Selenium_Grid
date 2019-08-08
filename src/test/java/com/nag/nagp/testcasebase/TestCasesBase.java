@@ -71,7 +71,7 @@ public class TestCasesBase{
 		ReportFactory.reportFolder = currentFolder;
 		SeleniumKeywords.waitTime = Integer.parseInt(configProperties.get("MaxwaitTime"));
 		ReportFactory.getInstance().generateReport(browser);
-		BrowserFactory.getInstance().launchBrowser(browser);
+		BrowserFactory.getInstance().launchBrowser(browser,configProperties.get("URL"));
 		driver = BrowserFactory.getInstance().getDriver();
 	}
 

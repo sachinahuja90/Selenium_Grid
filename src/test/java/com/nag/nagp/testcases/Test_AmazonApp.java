@@ -51,7 +51,7 @@ public class Test_AmazonApp extends TestCasesBase {
 		assertTrue(keywords.verifyElementPresence("continueButton", AmazonCreateAccountPage.continueButton));			
 	}
 	
-	@Test(description="Validate Search keyword",groups= {"searchtext"})
+	@Test(description="Validate Search keyword",groups= {"Search"})
 	public void Test_Validate_AmazonSearch() throws ElementNotFound, ElementNotClickable {
 		String searchedText=TestCasesBase.testDataMap.get("Search");
 		assertTrue(keywords.verifyElementPresence("signButton", AmazonHomePage.signButton));
