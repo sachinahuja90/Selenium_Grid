@@ -1,5 +1,7 @@
 package com.nag.nagp.selenium.keywords;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -117,6 +119,15 @@ public class SeleniumKeywords {
 		//ReportFactory.getInstance().info("Browser console logs fetched : "+logs);
 		return logs;
 	}
+	
+
+	public void pressEnterKey(String nameofObject, By selector) throws ElementNotFound {
+		we = null;
+		verifyElementPresence(nameofObject, selector);
+		we.sendKeys(Keys.RETURN);
+		ReportFactory.getInstance().info("Enter key pressed in WebElement : " + nameofObject + " [" + selector + "]");
+	}
+	
 	
 	public boolean verifyElementWithTextPresence(String text) throws ElementNotFound{
 		we=null;
@@ -281,5 +292,20 @@ public class SeleniumKeywords {
    		WebDriverWait wait = new WebDriverWait(BrowserFactory.getInstance().getDriver(),waitTime);
    	    wait.until(ExpectedConditions.elementToBeClickable(by));
    	}
+	
+
+	public boolean verifyPageTitle(String expected) throws ElementNotFound {
+		String actual = "";
+		try {
+			actual = BrowserFactory.getInstance().getDriver().getTitle();
+			assertEquals(actual, expected);
+			ReportFactory.getInstance().info("Current Page title : " + actual + " matches with " + expected);
+			return true;
+		} catch (Exception e) {
+			ReportFactory.getInstance().info("Current Page title : " + actual + " doesn't matches with " + expected);
+			return false;
+
+		}
+	}
     
 }

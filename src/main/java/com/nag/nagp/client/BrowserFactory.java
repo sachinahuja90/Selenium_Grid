@@ -35,7 +35,12 @@ public class BrowserFactory {
 	}
 
 	public final void launchBrowser(String browser) throws MalformedURLException {
+		try {
 		driver.set(new RemoteWebDriver(new URL("http://192.168.0.107:4444/wd/hub"), getBrowserCapabilities(browser)));
+		}
+		catch (Exception e) {
+	e.printStackTrace();
+		}
 	}
 
 	private static DesiredCapabilities getBrowserCapabilities(String browserType) {
@@ -49,14 +54,6 @@ public class BrowserFactory {
 			System.out.println("browser : " + browserType + " is invalid, Launching Firefox as browser of choice..");
 			return DesiredCapabilities.firefox();
 		}
-	}
-
-	public final void launchBrowser1(String browserType) throws Exception {
-
-		if (browserType.equalsIgnoreCase("Chrome"))
-			setChromeDriver();
-		else if (browserType.equalsIgnoreCase("Firefox"))
-			setFireFoxDriver();
 	}
 
 	private void setChromeDriver() throws Exception {

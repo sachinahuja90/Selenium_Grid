@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -16,7 +17,6 @@ import org.testng.annotations.Parameters;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.nag.nagp.applicationhelper.RedbusHelper;
 import com.nag.nagp.client.BrowserFactory;
 
 import com.nag.nagp.common.util.Utilities;
@@ -25,7 +25,7 @@ import com.nag.nagp.propertyReader.PropertyReader;
 import com.nag.nagp.reporterLogger.ReportFactory;
 import com.nag.nagp.selenium.keywords.SeleniumKeywords;
 
-public class TestCasesBase extends RedbusHelper {
+public class TestCasesBase{
 
 	private static String curDir = System.getProperty("user.dir");
 	protected static CustomAssertion m_custom;
@@ -35,12 +35,13 @@ public class TestCasesBase extends RedbusHelper {
 	ExtentReports extent;
 	ExtentTest extentTest;
 	protected RemoteWebDriver driver;
-	public static RedbusHelper appHelper;
 	public static Utilities utility;
 	public static SeleniumKeywords keywords;
 	private static String currentFolder;
-
-	@BeforeSuite
+	public static HashMap<String, String> testDataMap,testCaseMap;
+    
+	
+	@BeforeSuite(groups= {"Search","Home","SignUp","Login"})
 	public void beforeSuite() throws Exception {
 		try {
 			initializePropertyFiles();
@@ -65,7 +66,7 @@ public class TestCasesBase extends RedbusHelper {
 	}
 
 	@Parameters("browser")
-	@BeforeTest
+	@BeforeTest(groups= {"Search","Home","SignUp","Login"})
 	public void beforeTest(String browser) throws Exception {
 		ReportFactory.reportFolder = currentFolder;
 		SeleniumKeywords.waitTime = Integer.parseInt(configProperties.get("MaxwaitTime"));
@@ -75,8 +76,11 @@ public class TestCasesBase extends RedbusHelper {
 	}
 
 	// This method will be executed before each TEST Method.
-	@BeforeMethod
-	public void initializeRestClient(Method method, ITestResult result) throws Exception {
+	@BeforeMethod(groups= {"Search","Home","SignUp","Login"})
+	public void initializeRestClient(Method method, ITestResult result) throws Exception {				
+		if(TestCasesBase.testCaseMap.get(method.getName()).equalsIgnoreCase("No")) {
+    		throw new SkipException("Testcase marked as 'No' in property File");
+    	}
 		ReportFactory.getInstance().newTest(method.getName(), result);
 		keywords.navigateTo(configProperties.get("testURL"));
 	}
@@ -84,7 +88,7 @@ public class TestCasesBase extends RedbusHelper {
 	// This method will be executed after each TEST Method weather it is
 	// PASS/FAIL/Skipped.
 
-	@AfterMethod
+	@AfterMethod(groups= {"Search","Home","SignUp","Login"})
 	public void getResult(ITestResult result) {
 		if (result.getStatus() == ITestResult.FAILURE) {
 			ReportFactory.getInstance().fail(result);
@@ -98,7 +102,7 @@ public class TestCasesBase extends RedbusHelper {
 
 	// This method will execute after completing the suite.
 	@Parameters("browser")
-	@AfterTest
+	@AfterTest(groups= {"Search","Home","SignUp","Login"})
 	public void tearDown(String browser) {
 		// to write or update test information to reporter
 		ReportFactory.getInstance().printReport(browser);
@@ -106,7 +110,6 @@ public class TestCasesBase extends RedbusHelper {
 	}
 
 	private static void initializeKeywords() {
-		appHelper = new RedbusHelper();
 		keywords = new SeleniumKeywords();
 		utility = new Utilities();
 		m_custom = new CustomAssertion();
@@ -117,6 +120,8 @@ public class TestCasesBase extends RedbusHelper {
 			ReportFactory.reportPropertyMap = new PropertyReader()
 					.getProperties(curDir + "\\src\\test\\resources\\extentReport.properties");
 			configProperties = new PropertyReader().getProperties(curDir + "\\src\\test\\resources\\config.Properties");
+			TestCasesBase.testDataMap=new PropertyReader().getProperties(curDir+"\\src\\test\\resources\\testData.properties");
+			TestCasesBase.testCaseMap=new PropertyReader().getProperties(curDir+"\\src\\test\\resources\\testCases.properties");
 		} catch (Exception e) {
 			ReportFactory.LOGGER.info(e.getMessage());
 			e.printStackTrace();

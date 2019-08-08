@@ -4,27 +4,53 @@
   <listeners>
     <listener class-name="com.nag.nagp.testListeners.TestListener"/>
   </listeners>
-  <test thread-count="5" name="Test(failed)">
+  <test thread-count="5" name="Test Application - Firefox(failed)">
+    <parameter name="browser" value="chrome"/>
+    <groups>
+      <run>
+        <include name="Search"/>
+        <include name="SignUp"/>
+        <include name="Login"/>
+        <include name="Home"/>
+      </run>
+    </groups>
     <classes>
-      <class name="com.nag.nagp.testcases.Test_Redbus_BusDetails">
+      <class name="com.nag.nagp.testcases.Test_AmazonApp">
         <methods>
           <include name="getResult"/>
-          <include name="Test_Validate_WifiIcon"/>
-          <include name="BeforeSuite"/>
+          <include name="Test_Validate_Click_AmazonLogo"/>
+          <include name="Test_Validate_AmazonSignUp"/>
+          <include name="beforeTest"/>
           <include name="tearDown"/>
+          <include name="Test_Validate_HomePage"/>
+          <include name="beforeSuite"/>
           <include name="initializeRestClient"/>
-          <include name="Test_Validate_BusCountWithWifi"/>
+          <include name="Test_Validate_ClickSignIn"/>
         </methods>
-      </class> <!-- com.nag.nagp.testcases.Test_Redbus_BusDetails -->
-      <class name="com.nag.nagp.testcases.Test_Redbus_BusList_Page">
-        <methods>
-          <include name="getResult"/>
-          <include name="BeforeSuite"/>
-          <include name="tearDown"/>
-          <include name="initializeRestClient"/>
-          <include name="Test_BusList_With_LiveTracking_Filter"/>
-        </methods>
-      </class> <!-- com.nag.nagp.testcases.Test_Redbus_BusList_Page -->
+      </class> <!-- com.nag.nagp.testcases.Test_AmazonApp -->
     </classes>
-  </test> <!-- Test(failed) -->
+  </test> <!-- Test Application - Firefox(failed) -->
+  <test thread-count="5" name="Test Application - Chrome(failed)">
+    <parameter name="browser" value="firefox"/>
+    <groups>
+      <run>
+        <include name="Search"/>
+        <include name="SignUp"/>
+        <include name="Login"/>
+        <include name="Home"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.nag.nagp.testcases.Test_AmazonApp">
+        <methods>
+          <include name="getResult"/>
+          <include name="Test_Validate_Click_AmazonLogo"/>
+          <include name="beforeTest"/>
+          <include name="tearDown"/>
+          <include name="beforeSuite"/>
+          <include name="initializeRestClient"/>
+        </methods>
+      </class> <!-- com.nag.nagp.testcases.Test_AmazonApp -->
+    </classes>
+  </test> <!-- Test Application - Chrome(failed) -->
 </suite> <!-- Failed suite [RegressionSuite] -->

@@ -1,38 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Parallel - RegressionSuite]" parallel="tests">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [RegressionSuite]">
   <listeners>
     <listener class-name="com.nag.nagp.testListeners.TestListener"/>
   </listeners>
-  <test thread-count="5" name="Test Application - IE(failed)" parallel="tests">
-    <parameter name="browser" value="IE"/>
-    <classes>
-      <class name="com.nag.nagp.testcases.Test_Redbus_BusTicket_BookingPage">
-        <methods>
-          <include name="getResult"/>
-          <include name="Test_Validate_BusTicket_Fields"/>
-          <include name="beforeTest"/>
-          <include name="tearDown"/>
-          <include name="Test_Validate_BusesSameSourceDestination"/>
-          <include name="beforeSuite"/>
-          <include name="initializeRestClient"/>
-        </methods>
-      </class> <!-- com.nag.nagp.testcases.Test_Redbus_BusTicket_BookingPage -->
-    </classes>
-  </test> <!-- Test Application - IE(failed) -->
-  <test thread-count="5" name="Test Application - Chrome(failed)" parallel="tests">
+  <test thread-count="5" name="Test Application - Firefox(failed)">
     <parameter name="browser" value="chrome"/>
+    <groups>
+      <run>
+        <include name="Search"/>
+        <include name="SignUp"/>
+        <include name="Login"/>
+        <include name="Home"/>
+      </run>
+    </groups>
     <classes>
-      <class name="com.nag.nagp.testcases.Test_Redbus_BusTicket_BookingPage">
+      <class name="com.nag.nagp.testcases.Test_AmazonApp">
         <methods>
           <include name="getResult"/>
+          <include name="Test_Validate_Click_AmazonLogo"/>
+          <include name="Test_Validate_AmazonSignUp"/>
           <include name="beforeTest"/>
           <include name="tearDown"/>
-          <include name="Test_Validate_BusesSameSourceDestination"/>
+          <include name="Test_Validate_HomePage"/>
+          <include name="beforeSuite"/>
+          <include name="initializeRestClient"/>
+          <include name="Test_Validate_ClickSignIn"/>
+        </methods>
+      </class> <!-- com.nag.nagp.testcases.Test_AmazonApp -->
+    </classes>
+  </test> <!-- Test Application - Firefox(failed) -->
+  <test thread-count="5" name="Test Application - Chrome(failed)">
+    <parameter name="browser" value="firefox"/>
+    <groups>
+      <run>
+        <include name="Search"/>
+        <include name="SignUp"/>
+        <include name="Login"/>
+        <include name="Home"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.nag.nagp.testcases.Test_AmazonApp">
+        <methods>
+          <include name="getResult"/>
+          <include name="Test_Validate_Click_AmazonLogo"/>
+          <include name="beforeTest"/>
+          <include name="tearDown"/>
           <include name="beforeSuite"/>
           <include name="initializeRestClient"/>
         </methods>
-      </class> <!-- com.nag.nagp.testcases.Test_Redbus_BusTicket_BookingPage -->
+      </class> <!-- com.nag.nagp.testcases.Test_AmazonApp -->
     </classes>
   </test> <!-- Test Application - Chrome(failed) -->
-</suite> <!-- Failed suite [Parallel - RegressionSuite] -->
+</suite> <!-- Failed suite [RegressionSuite] -->
